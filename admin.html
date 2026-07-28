@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Capptastical Cleaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="nav-left">
+      <a class="brand" href="index.html">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 6 9.5 6 14a6 6 0 0 0 12 0c0-4.5-6-12-6-12Z" fill="#FFFFFF"/></svg></span>
+        <span class="brand-name">Capptastical Cleaning<span>Admin panel</span></span>
+      </a>
+    </div>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="booking.html">Booking</a>
+    </nav>
+    <div class="nav-right" id="topbarUser"></div>
+  </div>
+</header>
+
+<div class="admin-shell">
+
+  <!-- ===== LOGIN GATE ===== -->
+  <div id="loginView">
+    <div class="admin-login">
+      <div class="lock">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+      <h2 style="font-size:19px;">Staff sign-in</h2>
+      <p style="font-size:13.5px;">Sign in with your work Google account to manage discounts, availability and bookings.</p>
+
+      <div id="gsiButtonSlot"></div>
+      <button class="gsi-btn" id="demoSignIn">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.9 5.1 29.7 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.7-.4-4z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.7 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.9 6.1 29.7 4 24 4 15.7 4 8.6 8.7 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.6 0 10.7-2.1 14.5-5.6l-6.7-5.5C29.6 35.6 27 36.5 24 36.5c-5.3 0-9.7-3.4-11.3-8.1l-6.7 5.2C8.5 40.2 15.6 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1.1 3.1-3.5 5.6-6.5 7l6.7 5.5C38.9 38.4 42 32 42 24c0-1.4-.1-2.7-.4-3.5z"/></svg>
+        Sign in with Google (demo)
+      </button>
+
+      <p class="auth-error" id="authError">This Google account isn't on the authorized staff list.</p>
+
+      <div class="demo-note">
+        <strong>Demo mode:</strong> real "Sign in with Google" needs a Google Cloud OAuth client ID and a backend to verify the token — see README.md. For now, "demo" sign-in lets you type any email so you can try the panel. Try <code>owner@capptasticalcleaning.com.au</code> for an authorized account, or any other address to see the access-denied state.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <div id="dashView" style="display:none;">
+    <div class="admin-body">
+      <div class="wrap">
+
+        <div class="admin-tabs">
+          <button class="tab-btn active" data-tab="discounts">Discount codes</button>
+          <button class="tab-btn" data-tab="blackouts">Availability</button>
+          <button class="tab-btn" data-tab="bookings">Bookings</button>
+        </div>
+
+        <!-- DISCOUNTS -->
+        <section class="admin-panel active" id="tab-discounts">
+          <div class="panel-head">
+            <div>
+              <h2>Discount codes</h2>
+              <p>Create codes for percentage or dollar-amount discounts, with optional day, usage and expiry limits.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="newDiscountBtn">+ New code</button>
+          </div>
+          <div id="discountTableWrap"></div>
+        </section>
+
+        <!-- BLACKOUTS -->
+        <section class="admin-panel" id="tab-blackouts">
+          <div class="panel-head">
+            <div>
+              <h2>Availability</h2>
+              <p>Block out full days or specific time windows so customers can't book them.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="newBlackoutBtn">+ Block time</button>
+          </div>
+          <div id="blackoutTableWrap"></div>
+        </section>
+
+        <!-- BOOKINGS -->
+        <section class="admin-panel" id="tab-bookings">
+          <div class="panel-head">
+            <div>
+              <h2>Bookings</h2>
+              <p>Everything customers have booked through the site.</p>
+            </div>
+          </div>
+          <div id="bookingTableWrap"></div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DISCOUNT MODAL ===== -->
+<div class="modal-backdrop" id="discountModalBackdrop">
+  <div class="modal">
+    <h3 id="discountModalTitle">New discount code</h3>
+    <input type="hidden" id="discountId">
+    <div class="field">
+      <label for="dCode">Code</label>
+      <input type="text" id="dCode" placeholder="e.g. SUMMER25" style="text-transform:uppercase;">
+    </div>
+    <div class="field">
+      <label for="dNote">Internal note (optional)</label>
+      <input type="text" id="dNote" placeholder="What's this code for?">
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label for="dType">Discount type</label>
+        <select id="dType">
+          <option value="percent">Percentage off</option>
+          <option value="fixed">Dollar amount off</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="dValue">Value</label>
+        <input type="number" id="dValue" min="0" step="1" placeholder="e.g. 10">
+      </div>
+    </div>
+    <div class="field">
+      <label>Days it can be used <span class="hint">(leave all off to allow any day)</span></label>
+      <div class="day-picker" id="dayPicker">
+        <div class="day-chip" data-day="0">Sun</div>
+        <div class="day-chip" data-day="1">Mon</div>
+        <div class="day-chip" data-day="2">Tue</div>
+        <div class="day-chip" data-day="3">Wed</div>
+        <div class="day-chip" data-day="4">Thu</div>
+        <div class="day-chip" data-day="5">Fri</div>
+        <div class="day-chip" data-day="6">Sat</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label for="dMaxUses">Max uses <span class="hint">(blank = unlimited)</span></label>
+        <input type="number" id="dMaxUses" min="1" placeholder="Unlimited">
+      </div>
+      <div class="field">
+        <label for="dExpiry">Expiry date <span class="hint">(blank = never)</span></label>
+        <input type="date" id="dExpiry">
+      </div>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="dActive" checked>
+      <label for="dActive">Active (customers can use this code)</label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="discountCancel">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="discountSave">Save code</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BLACKOUT MODAL ===== -->
+<div class="modal-backdrop" id="blackoutModalBackdrop">
+  <div class="modal">
+    <h3>Block off time</h3>
+    <input type="hidden" id="blackoutId">
+    <div class="field">
+      <label for="bDate">Date</label>
+      <input type="date" id="bDate">
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="bAllDay" checked>
+      <label for="bAllDay">Block the entire day</label>
+    </div>
+    <div class="form-grid" id="bTimeRow" style="display:none;">
+      <div class="field">
+        <label for="bStart">From</label>
+        <input type="time" id="bStart">
+      </div>
+      <div class="field">
+        <label for="bEnd">Until</label>
+        <input type="time" id="bEnd">
+      </div>
+    </div>
+    <div class="field">
+      <label for="bReason">Reason (optional)</label>
+      <input type="text" id="bReason" placeholder="e.g. Public holiday">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="blackoutCancel">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="blackoutSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
