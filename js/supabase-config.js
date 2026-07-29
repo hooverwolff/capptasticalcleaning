@@ -11,8 +11,8 @@
    "service_role" key anywhere in this front-end code.
    =========================================================== */
 
-const SUPABASE_URL = 'https://YOUR-PROJECT-REF.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR-ANON-PUBLIC-KEY';
+const SUPABASE_URL = 'https://upncejamjwvythtvsafq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwbmNlamFtand2eXRodHZzYWZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODYwNzgsImV4cCI6MjEwMDg2MjA3OH0.EBWmRK0M0EImjlftV49656qYrTNE2ST5REkvrvo7nps';
 
 if (SUPABASE_URL.includes('YOUR-PROJECT-REF') || SUPABASE_ANON_KEY.includes('YOUR-ANON')) {
   console.warn(
